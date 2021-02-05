@@ -1,3 +1,29 @@
+# IDE
 /.idea/
-/node_modules/
-yarn-error.log
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# secret files
+.env
+.envrc
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,0 +1,96 @@
+{
+  "welcome": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": " 👋 Hey there! 🤖 I\u0027m ASOT",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "ASOT is for *As Seen On Television*. I\u0027m here to tell you when a Travaux.com ad is gonna be broadcast live on television.\n\nPlease click start button and I\u0027ll let you know 2 minutes before the broadcasting of the ad and I\u0027ll tell you what TV channel to watch.\n\nI\u0027ll show you the complete list of planned ads in the next few days every time you\u0027ll click the list button"
+      }
+    }
+  ],
+  "commands": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Use the `/asot` command*, followed by one of the instructions I can understand and I\u0027ll execute it. You can also talk to me in DM"
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*📺  Type `/asot start`* to subscribe to alerts. I\u0027ll let you know 2 minutes before the broadcasting of the ad and I\u0027ll tell you what TV channel to watch."
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*🗓  Type `/asot list`* and I\u0027ll show you the complete list of planned ads in the next few days."
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*⛔️  Type `/asot stop`* to unsubscribe to alerts. It\u0027s not recommended to try this command, I\u0027ll save your name and I\u0027ll publish it to make you ashamed 👿"
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "❔ Get help at any time with `/asot help` or type *help* in a DM with me"
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "type": "actions",
+    "elements": [
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "📺  Start",
+          "emoji": true
+        },
+        "action_id": "start"
+      },
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "⛔  Stop",
+          "emoji": true
+        },
+        "action_id": "stop"
+      },
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "🗓  List",
+          "emoji": true
+        },
+        "action_id": "list"
+      }
+    ]
+  }
+}
