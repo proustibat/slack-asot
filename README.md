@@ -55,12 +55,14 @@ I recommend to use [direnv](https://direnv.net/) in your repo to unclutter your 
 yarn ngrok
 ```
 
-Under the `Enable Events` switch in the `Request URL` box, go ahead and paste in the url as follows: 
+1. Under the `Enable Events` switch in the `Request URL` box, go ahead and paste in the url as follows: 
 `https://your-own-generated-url.ngrok.io/slack/events>`. As long as your Bolt app is still running, your URL should become verified.
 
-After your request URL is verified, scroll down to `Subscribe to Bot Events`: choose all four message events (`message.channels`, `message.mpim`, `message.im`, `message.groups`).
 
-Go into `Interactivity & Shortcuts` menu, paste the request url.
+2. After your request URL is verified, scroll down to `Subscribe to Bot Events`: choose all four message events (`message.channels`, `message.mpim`, `message.im`, `message.groups`).
+
+
+3. Go into `Interactivity & Shortcuts` menu, paste the request url.
 
 Then you won't touch the Ngrok proxy again. 
 
