@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "As Seen On Television: Slack bot for Travaux.com ads on television",
   "author": "Proustibat <jennifer.proust@gmail.com>",
-  "license": "ISC",
+  "license": "GPL-3.0 License",
+  "homepage": "https://github.com/proustibat/slack-asot#readme",
   "bugs": {
     "url": "https://github.com/proustibat/slack-asot/issues"
   },
-  "homepage": "https://github.com/proustibat/slack-asot#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
