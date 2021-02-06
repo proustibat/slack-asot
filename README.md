@@ -16,7 +16,7 @@ For local development, you'll need to expose the local server to the internet. Y
 
 2. Configure the app token:
    - In `OAuth & Permissions` menu, add the app to your workspace.
-   - Create a token with `chat:write` permission.
+   - Create a token with `chat:write` and `users:read` permissions.
    - Save your bot user access token and the signing secret token from `basic information`.
 
 3. Subscribe to events: in the `Event Subscriptions`, toggle `Enable Events`.
