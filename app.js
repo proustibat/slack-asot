@@ -1,22 +1,27 @@
 const { App, LogLevel } = require('@slack/bolt');
 
-const initActions = require('./init-actions');
-const initDatabase = require('./init-database');
+const { listenMessages, listenActions } = require('./init-listeners');
+const { initDatabase } = require('./database');
 const initUsers = require('./init-users');
 
+const PORT = process.env.APP_PORT || 3000;
+
 (async () => {
-  // Initializes your app with your bot token and signing secret
+  // Init Slack Bolt App
   const app = new App({
     token: process.env.SLACK_BOT_TOKEN,
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     // logLevel: LogLevel.DEBUG,
   });
 
-  // Database
-  const { dbRefUsers, dbRefAds } = await initDatabase();
+  // Init database
+  await initDatabase();
 
-  // Listen to actions and messages from the user
-  initActions(app, dbRefUsers);
+  // Listen to messages
+  await listenMessages(app);
+
+  // Listen to actions
+  await listenActions(app);
 
   // Schedule messages for each users
   // initUsers(app);
@@ -28,9 +33,7 @@ const initUsers = require('./init-users');
   //   text: `\uD83E\uDD16 Hi <@proustibat>! Message eclair!`,
   // });
 
-  const PORT = process.env.APP_PORT || 3000;
-
-  // Start your app
+  // Start the app
   await app.start(PORT);
 
   console.log(`⚡️ Bolt app is running on port ${PORT}!`);
