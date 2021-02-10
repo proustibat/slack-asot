@@ -5,8 +5,6 @@ const getUnixTime = require('date-fns/getUnixTime');
 const initUsers = async ({ client }) => {
   // const testResult = await client.auth.test();
   // console.log(testResult);
-  // You probably want to use a database to store any user information ;)
-  let usersStore = {};
 
   try {
     const listResult = await client.users.list({

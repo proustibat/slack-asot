@@ -34,6 +34,9 @@ const initDatabase = async () => {
   dbRefAds = admin.app(DB_NAMES.ADS).database().ref('/');
 };
 
+const getDbRefAds = () => dbRefAds;
+const getDbRefUsers = () => dbRefUsers;
+
 const handleAdsQuery = resolve => snapshot => {
   const results = Object.entries(snapshot.val());
   cursorQueryAds = results[results.length - 1][0];
@@ -64,13 +67,29 @@ const getNextAdsAfterCursor = async () => {
   });
 };
 
-const getDbRefAds = () => dbRefAds;
-const getDbRefUsers = () => dbRefUsers;
+const getUser = async id =>
+  await dbRefUsers
+    .child(id)
+    .once('value')
+    .then(snapshot => snapshot.val());
+
+const createUser = async userSlack => {
+  console.log('createUser');
+  return await getDbRefUsers().child(userSlack.id).set(userSlack);
+};
+
+const setUserSubscription = async (userId, active) => {
+  console.log('setUserSubscription');
+  return await getDbRefUsers().child(`${userId}/hasSubscribed`).set(active);
+};
 
 module.exports = {
   initDatabase,
   getDbRefAds,
-  getDbRefUsers,
+  // getDbRefUsers,
   getNextAds,
   getNextAdsAfterCursor,
+  createUser,
+  getUser,
+  setUserSubscription,
 };

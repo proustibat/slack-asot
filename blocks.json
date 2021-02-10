@@ -68,28 +68,51 @@
         "type": "button",
         "text": {
           "type": "plain_text",
-          "text": "📺  Start",
+          "text": "📺  Subscribe to all",
           "emoji": true
         },
-        "action_id": "start"
+        "action_id": "subscribeAll"
       },
       {
         "type": "button",
         "text": {
           "type": "plain_text",
-          "text": "⛔  Stop",
+          "text": "⛔  Unsubscribe from all",
           "emoji": true
         },
-        "action_id": "stop"
+        "action_id": "unsubscribeAll"
       },
       {
         "type": "button",
         "text": {
           "type": "plain_text",
-          "text": "🗓  List",
+          "text": "🗓  See next ads",
           "emoji": true
         },
-        "action_id": "list"
+        "action_id": "showAds"
+      },
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": ":information_desk_person:  See subscribed ads",
+          "emoji": true
+        },
+        "action_id": "showSubscribedAds"
+      }
+    ]
+  },
+  "nextAdsButton": {
+    "type": "actions",
+    "elements": [
+      {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "emoji": true,
+          "text": "Next ads"
+        },
+        "action_id": "showNextAds"
       }
     ]
   }

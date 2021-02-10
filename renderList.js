@@ -1,4 +1,5 @@
 const { getChannelLink } = require('./channels');
+const { nextAdsButton } = require('./blocks.json');
 
 const renderList = adsData => {
   const intro = [
@@ -46,26 +47,8 @@ const renderList = adsData => {
       },
     ])
     .flat();
-
-  const actions = [
-    {
-      type: 'actions',
-      elements: [
-        {
-          type: 'button',
-          text: {
-            type: 'plain_text',
-            emoji: true,
-            text: 'Next ads',
-          },
-          action_id: 'listNextAds',
-        },
-      ],
-    },
-  ];
-
   return {
-    blocks: [...intro, ...adsBlocks, ...actions],
+    blocks: [...intro, ...adsBlocks, nextAdsButton],
   };
 };
 
