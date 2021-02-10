@@ -5,8 +5,18 @@ const {
   getUser,
   setUserSubscription,
 } = require('./database');
-const { welcome, actions } = require('./blocks.json');
+const {
+  welcome,
+  actions,
+  subscriptionsActionsSays,
+  sayInProgress,
+} = require('./blocks.json');
 const renderList = require('./renderList');
+const {
+  deleteAllScheduledMessages,
+  schedulesAllMessages,
+  getScheduledMessage,
+} = require('./slack-api');
 
 const boltActions = {
   SUBSCRIBE: 'subscribeAll',
@@ -15,6 +25,8 @@ const boltActions = {
   SHOW_NEXT: 'showNextAds',
   SHOW_SUBSCRIBED: 'showSubscribedAds',
 };
+
+let actionInProgress = false;
 
 const listenMessages = app => {
   app.message(
@@ -60,65 +72,70 @@ const createOrUpdateUser = async (userSlack, subscribe) => {
       });
 };
 
+const toggleSubscriptions = async ({ body, ack, say }) => {
+  actionInProgress = true;
+  const saysNode = body.actions[0].action_id;
+  const result = await createOrUpdateUser(
+    body.user,
+    saysNode === boltActions.SUBSCRIBE,
+  );
+  if (result?.already) {
+    await say(subscriptionsActionsSays[saysNode].already);
+  } else {
+    await say(subscriptionsActionsSays[saysNode].loading);
+    await (saysNode === boltActions.SUBSCRIBE
+      ? schedulesAllMessages
+      : deleteAllScheduledMessages)(body.user.id);
+    await say(subscriptionsActionsSays[saysNode].done);
+  }
+  actionInProgress = false;
+};
+
+const showAdsAction = async ({ ack, body, say, respond }) => {
+  actionInProgress = true;
+  const action = body.actions[0].action_id;
+
+  const ads = await (action === boltActions.SHOW
+    ? getNextAds
+    : getNextAdsAfterCursor)();
+  await (action === boltActions.SHOW ? say : respond)(renderList(ads));
+  actionInProgress = false;
+};
+
+const showSubscribedAds = async ({ ack, body, say }) => {
+  console.log('SHOW SUBSCRIBED ADS');
+  actionInProgress = true;
+
+  // TODO: get user
+  //  --> if user doesn't exist, send a message to propose subscription
+  //  --> if user exists, check if he has subscribed
+  //      --> if no, send a message to propose subscription
+  //      --> if yes, getScheduledMessages
+
+  await getScheduledMessage(body.user.id);
+
+  //TODO: for each message, renderList
+  await say('TODO');
+  actionInProgress = false;
+};
+
+const blockUi = async ({ ack, say, next }) => {
+  await ack();
+  if (actionInProgress) {
+    await say(sayInProgress);
+  } else {
+    await next();
+  }
+};
+
 const listenActions = app => {
-  app.action(boltActions.SUBSCRIBE, async ({ body, ack, say }) => {
-    console.log('SUBSCRIBE');
-    await ack();
+  app.action(boltActions.SUBSCRIBE, blockUi, toggleSubscriptions);
+  app.action(boltActions.UNSUBSCRIBE, blockUi, toggleSubscriptions);
 
-    const result = await createOrUpdateUser(body.user, true);
+  app.action(boltActions.SHOW, blockUi, showAdsAction);
+  app.action(boltActions.SHOW_NEXT, blockUi, showAdsAction);
 
-    if (result?.already) {
-      await say("\uD83E\uDD16 You've already subscribed to all ads!");
-    } else {
-      await say(
-        "\uD83E\uDD16 Here we go!\n:gear: I'm cooking a fabulous receipt for you, please be patient, I'll tell you when it will be ready...",
-      );
-
-      // TODO: schedule message for each ads in database
-
-      await new Promise(resolve => setTimeout(resolve, 5000));
-
-      await say("📺 Ok great! You've subscribed to all ads!");
-    }
-  });
-
-  app.action(boltActions.UNSUBSCRIBE, async ({ body, ack, say }) => {
-    console.log('UNSUBSCRIBE');
-    await ack();
-
-    const result = await createOrUpdateUser(body.user, false);
-
-    if (result?.already) {
-      await say("\uD83E\uDD16 You've already unsubscribed from all ads!");
-    } else {
-      await say(
-        `\uD83E\uDD16 Alright!\n:gear: Please wait a moment, I'm erasing you from my life, please be patient, I'll tell you when it will be done...`,
-      );
-
-      // TODO: get schedules messages and remove it
-
-      await new Promise(resolve => setTimeout(resolve, 5000));
-
-      await say("⛔ Ok great! You've unsubscribed from all ads notifications!");
-    }
-  });
-
-  app.action(boltActions.SHOW, async ({ ack, say }) => {
-    await ack();
-    const ads = await getNextAds();
-    await say(renderList(ads));
-  });
-
-  app.action(boltActions.SHOW_NEXT, async ({ ack, respond }) => {
-    await ack();
-    const ads = await getNextAdsAfterCursor();
-    await respond(renderList(ads));
-  });
-
-  app.action(boltActions.SHOW_SUBSCRIBED, async ({ ack, body }) => {
-    await ack();
-    console.log(body.user);
-  });
+  app.action(boltActions.SHOW_SUBSCRIBED, blockUi, showSubscribedAds);
 };
 
 module.exports = { listenMessages, listenActions, boltActions };

@@ -68,7 +68,7 @@
         "type": "button",
         "text": {
           "type": "plain_text",
-          "text": "📺  Subscribe to all",
+          "text": ":tv:  Subscribe to all",
           "emoji": true
         },
         "action_id": "subscribeAll"
@@ -77,7 +77,7 @@
         "type": "button",
         "text": {
           "type": "plain_text",
-          "text": "⛔  Unsubscribe from all",
+          "text": ":no_good:  Unsubscribe from all",
           "emoji": true
         },
         "action_id": "unsubscribeAll"
@@ -86,7 +86,7 @@
         "type": "button",
         "text": {
           "type": "plain_text",
-          "text": "🗓  See next ads",
+          "text": ":spiral_calendar_pad:  See next ads",
           "emoji": true
         },
         "action_id": "showAds"
@@ -110,10 +110,24 @@
         "text": {
           "type": "plain_text",
           "emoji": true,
-          "text": "Next ads"
+          "text": ":fast_forward: Next ads"
         },
         "action_id": "showNextAds"
       }
     ]
-  }
+  },
+  "subscriptionsActionsSays": {
+    "subscribeAll": {
+      "already": ":robot_face: You've already subscribed to all ads!",
+      "loading": ":robot_face: Here we go!\n:gear: I'm cooking a fabulous receipt for you, please be patient, I'll tell you when it will be ready...",
+      "done": ":tv: Ok great! You've subscribed to all ads!"
+    },
+    "unsubscribeAll": {
+      "already": ":robot_face: You've already unsubscribed from all ads!",
+      "loading": ":robot_face: Alright!\n:gear: Please wait a moment, I'm erasing you from my life, please be patient, I'll tell you when it will be done...",
+      "done": ":no_good: Ok! You've unsubscribed from all ads notifications!"
+    }
+  },
+  "sayInProgress": ":robot_face: Hey!\n:gear: I'm already doing something for you, please wait a second!"
 }
+
